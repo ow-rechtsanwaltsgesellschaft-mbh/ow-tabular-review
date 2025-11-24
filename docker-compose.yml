@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     container_name: tabular-review-backend
     ports:
-      - "8000:8000"
+      - "8010:8000"
     environment:
       - PYTHONUNBUFFERED=1
     volumes:
@@ -24,7 +24,7 @@ services:
         - VITE_OPENAI_API_BASE_URL=${VITE_OPENAI_API_BASE_URL:-https://api.openai.com/v1}
     container_name: tabular-review-frontend
     ports:
-      - "3000:3000"
+      - "3001:3000"
     depends_on:
       - backend
     networks:
