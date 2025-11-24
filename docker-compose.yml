@@ -1,0 +1,37 @@
+services:
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: tabular-review-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./server:/app
+    networks:
+      - tabular-review-network
+    pull_policy: build
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:8000
+        - VITE_OPENAI_API_KEY=${VITE_OPENAI_API_KEY}
+        - VITE_OPENAI_API_BASE_URL=${VITE_OPENAI_API_BASE_URL:-https://api.openai.com/v1}
+    container_name: tabular-review-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - tabular-review-network
+    pull_policy: build
+
+networks:
+  tabular-review-network:
+    driver: bridge
+
