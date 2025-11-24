@@ -8,6 +8,7 @@ services:
       - "8010:8000"
     environment:
       - PYTHONUNBUFFERED=1
+      - ALLOWED_ORIGINS=http://owdocker:3001
     volumes:
       - ./server:/app
     networks:
@@ -19,7 +20,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - VITE_API_URL=http://localhost:8000
+        - VITE_API_URL=${VITE_API_URL}
         - VITE_OPENAI_API_KEY=${VITE_OPENAI_API_KEY}
         - VITE_OPENAI_API_BASE_URL=${VITE_OPENAI_API_BASE_URL:-https://api.openai.com/v1}
     container_name: tabular-review-frontend

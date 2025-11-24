@@ -8,15 +8,14 @@ import shutil
 app = FastAPI()
 
 # Configure CORS
-# In production, replace with specific origins
-origins = [
-    "http://localhost:3000",
-    "http://localhost:5173", # Vite default
-]
+
+origins_env = os.getenv("ALLOWED_ORIGINS", "")
+origins = [o.strip() for o in origins_env.split(",") if o.strip()]
+print("CORS allowed origins:", origins)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=origins or ["*"],   # für Entwicklung großzügig
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
